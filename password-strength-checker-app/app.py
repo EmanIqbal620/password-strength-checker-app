@@ -1,15 +1,15 @@
 import random
 import streamlit as st
 import re
-import string  # ✅ Added missing import
+import string  
 
-# <<<-------------------------------------->>>
+
 # Step 1: Password Generator
 def generate_password(length):
     characters = string.digits + string.ascii_letters + "!@#$%^&*()+=_-?/<>()~"
     return "".join(random.choice(characters) for _ in range(length))
 
-# <<<-------------------------------------->>>
+
 # Step 2: Password Strength Checker
 def check_password_strength(password):
     score = 0
@@ -39,7 +39,7 @@ def check_password_strength(password):
         feedback.append("⚜ Add at least one number (0-9).")
 
     # Special Character Check
-    if re.search(r"[!@#$%^&*\(\)+=_\-?/<>~]", password):  # ✅ Fixed regex
+    if re.search(r"[!@#$%^&*\(\)+=_\-?/<>~]", password): 
         score += 1
     else:
         feedback.append("⚜ Include at least one special character (!@#$%^&*()+=_-?/<>()~).")
@@ -52,7 +52,7 @@ def check_password_strength(password):
     else:
         return feedback, "Weak"
 
-# <<<-------------------------------------->>>
+
 # Streamlit UI
 st.title("🔐 Password Strength Manager")
 
@@ -62,26 +62,26 @@ if st.button("Check Strength"):
     if check_password:
         feedback, strength = check_password_strength(check_password)
         
-        # ✅ Showing feedback row by row
+     
         if strength == "Strong":
             st.success(feedback[0])
             st.balloons()
         elif strength == "Moderate":
-            st.warning(feedback[0])  # ✅ Fixed missing condition
+            st.warning(feedback[0])  
         else:
             st.error("❗ Weak Password! Consider the following tips:")
             for message in feedback:
-                st.write(f"🔹 {message}")  # ✅ Tips appear with bullets
+                st.write(f"🔹 {message}")  
 
     else:
         st.warning("Please enter a password")
 
-# <<<-------------------------------------->>>
+
 # Password Generator UI
 password_length = st.number_input("Enter the length of password", min_value=8, max_value=20, value=10)
 if st.button("Generate Password"):
     password = generate_password(password_length)
-    st.success(f"Generated Password: `{password}`")  # ✅ Styled output
+    st.success(f"Generated Password: `{password}`")  
 
     # ✅ Copy Button
-    st.code(password, language="")  # ✅ Users can copy password easily
+    st.code(password, language="") 
